@@ -1,0 +1,61 @@
+version: '2.1'
+services:
+
+  elasticsearch:
+    container_name: elastic
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+    ports:
+      - "9200:9200"
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    environment:
+      - "TZ=Europe/Paris"
+      - "ES_JAVA_OPTS= -Xms1g -Xmx1g"
+      - "xpack.security.enabled=false"
+      - "xpack.monitoring.enabled=false"
+      - "xpack.graph.enabled=false"
+      - "xpack.watcher.enabled=false"
+    networks:
+      - elk
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:5.5.1
+    ports:
+      - "5601:5601"
+    environment:
+      - "TZ=Europe/Paris"
+      - "ELASTICSEARCH_URL=http://elastic:9200"
+      - "xpack.security.enabled=false"
+      - "xpack.monitoring.enabled=false"
+      - "xpack.graph.enabled=false"
+      - "xpack.watcher.enabled=false"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:5.5.1
+    volumes:
+      - ./conf:/conf
+    ports:
+      - "12201:12201"
+      - "12201:12201/udp"
+    environment:
+      - "TZ=Europe/Paris"
+      - "ELASTICSEARCH_URL=http://elastic:9200"
+    depends_on:
+      - elasticsearch
+    command: logstash -f /conf/gelf.conf
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  elastic-data:
+
