@@ -37,9 +37,7 @@ docker run -p 8080:8080 --log-driver=gelf --log-opt gelf-address=udp://localhost
 
 |Spring Boot Configuration | Class or Java property files  |
 |--------------------------|---|
-|The Dockerfile | [Dockerfile](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java) |
-|Properties Files | [application.properties](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/resources) |
-|Caching | [CacheConfig](https://github.com/spring-projects/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/system/CacheConfig.java) |
+|The Dockerfile | [Dockerfile](https://raw.githubusercontent.com/Treeptik/spring-petclinic-driver-logs-gelf/master/Dockerfile)|
 
 # Treeptik Add-on about PetClinic
 
